@@ -52,20 +52,39 @@ namespace Calculator
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if ((e.Key >= Key.D0 && e.Key <= Key.D9) || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9))
+            switch (e.Key)
             {
-                string key = e.Key.ToString();
-                key = key[key.Length - 1].ToString();
-                AddDigit(key);
+                case Key keyCode when (keyCode >= Key.D0 && keyCode <= Key.D9) || (keyCode >= Key.NumPad0 && keyCode <= Key.NumPad9):
+                    string key = e.Key.ToString();
+                    key = key[key.Length - 1].ToString();
+                    AddDigit(key);
+                    break;
+                case Key.Back:
+                    ClearEntry();
+                    break;
+                case Key.Enter:
+                    SetResultOnScreen();
+                    break;
+                case Key.Escape:
+                case Key.Delete:
+                    Clear();
+                    break;
+                case Key.Multiply:
+                    SetOperationSign('*');
+                    break;
+                case Key.Add:
+                    SetOperationSign('+');
+                    break;
+                case Key.Subtract:
+                    SetOperationSign('-');
+                    break;
+                case Key.Divide:
+                    SetOperationSign('/');
+                    break;
+                case Key.OemPeriod:
+                    AddDecimalDot();
+                    break;
             }
-            else if (e.Key == Key.OemPeriod) AddDecimalDot();
-            else if (e.Key == Key.Add) SetOperationSign('+');
-            else if (e.Key == Key.Subtract) SetOperationSign('-');
-            else if (e.Key == Key.Multiply) SetOperationSign('*');
-            else if (e.Key == Key.Divide) SetOperationSign('/');
-            else if (e.Key == Key.Enter) SetResultOnScreen();
-            else if (e.Key == Key.Back) ClearEntry();
-            else if (e.Key == Key.Escape || e.Key == Key.Delete) Clear();
         }
 
         private void ClearEntry()
